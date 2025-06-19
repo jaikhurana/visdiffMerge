@@ -1,3 +1,23 @@
 #!/bin/bash
-# Usage: git-visdiff-json <our-file> <their-file>
-matlab -nodesktop -nosplash -r "visdiff('$1', '$2'); pause; exit"
+
+OURS="$1"
+THEIRS="$2"
+MERGED="$3"
+
+if ! command -v matlab &> /dev/null; then
+  echo "❌ MATLAB not found in PATH"
+  exit 1
+fi
+
+# Copy one side to the merged file to start with (optional)
+cp "$OURS" "$MERGED"
+
+# Launch visdiff on the merged file for editing
+matlab -nodesktop -nosplash -r "visdiff('$OURS', '$THEIRS'); edit('$MERGED'); pause; exit"
+
+echo ""
+echo "✅ If you've saved your changes in MATLAB, Git will now continue."
+echo "MERGED FILE: $MERGED"
+read -p "Press ENTER once you have saved and closed the file..."
+
+exit 0
