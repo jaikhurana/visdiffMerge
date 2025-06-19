@@ -1,0 +1,3 @@
+#!/bin/bash
+# Usage: git-visdiff-json <our-file> <their-file>
+matlab -nodesktop -nosplash -r "visdiff('$1', '$2'); pause; exit"
